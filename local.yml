@@ -1,18 +1,24 @@
 - hosts: localhost
   become: true
   tasks:
-  - name: Install build-essential
-    apt: name=build-essential
-  - name: Create work dir
+  - name: Install packages
+    apt: name={{ item }}
+    with_items:
+      - build-essential
+      - nodejs
+      - npm
+      - tmux
+      - zsh
+      - ansible
+      - ansible-lint
+  - name: Create project dirs
     file:
-      path: "{{ lookup('env','HOME') }}/work"
+      path: "/home/*/{{ item }}"
       state: directory
-  - name: Create personal dir
-    file:
-      path: "{{ lookup('env','HOME') }}/personal"
-      state: directory
-  - name: Create external dir
-    file:
-      path: "{{ lookup('env','HOME') }}/external"
-      state: directory
-    
+    with_items:
+      - personal
+      - work
+      - external
+  - name: Debug
+    debug:
+      msg: "{{ lookup('env', 'HOME') }}"
