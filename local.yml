@@ -3,3 +3,16 @@
   tasks:
   - name: Install build-essential
     apt: name=build-essential
+  - name: Create work dir
+    file:
+      path: "{{ lookup('env','HOME') }}/work"
+      state: directory
+  - name: Create personal dir
+    file:
+      path: "{{ lookup('env','HOME') }}/personal"
+      state: directory
+  - name: Create external dir
+    file:
+      path: "{{ lookup('env','HOME') }}/external"
+      state: directory
+    
